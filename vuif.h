@@ -23,8 +23,9 @@ typedef struct {
 } image;
 
 void add_image_info(FILE *fptr, image *img) {
-    fputc(img->width, fptr);
-    fputc(img->height, fptr);
+    fputw(img->width, fptr);
+    fputc(0x20, fptr);
+    fputw(img->height, fptr);
     fputc(0x0A, fptr);
 }
 
@@ -44,8 +45,8 @@ void write_to_file(char *filename, image *img) {
     add_image_info(fptr, img);
 
     for (size_t i = 0; i < ((img->height) * (img->width)); i++) {
-        fputc(img->image_pixels[i].x , fptr);
-        fputc(img->image_pixels[i].y , fptr);
+        fputw(img->image_pixels[i].x , fptr);
+        fputw(img->image_pixels[i].y , fptr);
         fputc(img->image_pixels[i].pixel_color.r, fptr);
         fputc(img->image_pixels[i].pixel_color.g, fptr);
         fputc(img->image_pixels[i].pixel_color.b, fptr);
